@@ -97,7 +97,7 @@ class Trainer():
       train_acc_list.append(train_acc.item())
 
       # Valid loss and accuracy
-      valid_loss, valid_acc = self.Eval(x_valid, y_valid, batch_size=16)
+      valid_loss, valid_acc = self.Eval(x_valid, y_valid, batch_size=batch_size)
       valid_loss_list.append(valid_loss)
       valid_acc_list.append(valid_acc.item())
 
@@ -125,7 +125,10 @@ class Trainer():
       # print report
       last_report = '\r Epoch:{:03d}-Time:{:04d}s ---- Acc:{:.03f}%, Loss:{:.03f}, ValAcc:{:.03f}%, ValLoss:{:.03f}'.format(epoch+1, int(time()-start_time), train_acc_list[-1], train_loss_list[-1], valid_acc_list[-1], valid_loss_list[-1])
       if save_flag:
-        last_report += ', Weights saved, Test Acc: {:.03f}%'.format(test_acc)
+        if 'Test' in kwargs.keys():
+          last_report += ', Weights saved, Test Acc: {:.03f}%'.format(test_acc)
+        else:
+          last_report += ', Weights saved, Test Acc: --'
       print(last_report)
       # save report in dataframe
       self.report_dataframe.loc[len(self.report_dataframe.index)] = [epoch+1,
