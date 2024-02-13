@@ -173,17 +173,17 @@ class Trainer():
       self.optimizer = torch.optim.Adam(params=self.model.parameters(), lr=self.lr, weight_decay=self.weight_decay)
 
       train_index, test_index = self.fold_index_dict[self.fold_name]
-      train_size = int(len(train_index)*(1-Valid_split_size))
-      train_index, valid_index = train_index[:train_size], train_index[train_size:]
+      # train_size = int(len(train_index)*(1-Valid_split_size))
+      # train_index, valid_index = train_index[:train_size], train_index[train_size:]
 
-      train_K_fold_result[self.fold_name] = self.Train(X=X[train_index], Y=Y[train_index], x_valid=X[valid_index], y_valid=Y[valid_index],
+      train_K_fold_result[self.fold_name] = self.Train(X=X[train_index], Y=Y[train_index], x_valid=X[test_index], y_valid=Y[test_index],
                                                       epochs=epochs,
                                                       batch_size=batch_size,
                                                       save_weight_flag=save_weight_flag,
                                                       auto_save_weight_acc=auto_save_weight_acc,
                                                       weight_save_path=folder_path,
                                                       weight_file_name=file_name + '_' + self.fold_name,
-                                                      Seed=Seed, Test=(X[test_index], Y[test_index]))
+                                                      Seed=Seed)
 
 
       #file.close()
